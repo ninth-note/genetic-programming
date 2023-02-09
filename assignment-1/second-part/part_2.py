@@ -167,21 +167,6 @@ class gp_funcs:
         return parent1_dict1, parent2_dict1
 
 
-    def one_point_crossover(self, genome_a, genome_b):
-
-        # return if the Genomes are not atleast 2 in length, 
-        # or if one of the genomes is less than 2 in length
-        length = 2
-        length_a, length_b = len(genome_a), len(genome_b)
-        if (length_a < length > length_b) or (length_a != length_b):
-            return genome_a, genome_b
-        else:
-            length = length_a
-
-        cut_index = random.randint(1, length - 1)
-        return genome_a[0:cut_index] + genome_b[cut_index:], genome_b[0:cut_index] + genome_a[cut_index:]
-
-
     def swapper_mutation(self, genome, num_rounds = 1, probability = 0.4):
 
         for _ in range(num_rounds):
@@ -208,27 +193,6 @@ class gp_funcs:
                     genome[pos2] = pos1_val # value at pos1 submitted into pos2
 
                     # print("\nmutated genome: '%s'\n" % str(genome))
-
-        return genome
-
-
-    def standard_mutation(self, genome, num_rounds = 1, probability = 0.2):
-
-        for _ in range(num_rounds):
-
-            index = random.randrange(len(genome))
-            if random.random() < probability:
-                genome[index] = abs(genome[index] - 1)
-
-        return genome
-
-    def advanced_mutation(self, genome, num_rounds = 1, probability = 0.2):
-
-        for _ in range(num_rounds):
-
-            index = random.randrange(len(genome))
-            if random.random() < probability:
-                genome[index] = abs(genome[index] - random.choices(self.composition, k=1)[0])
 
         return genome
 

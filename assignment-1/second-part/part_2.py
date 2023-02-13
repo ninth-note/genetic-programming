@@ -103,11 +103,13 @@ class gp_funcs:
             current_std = choices[student]
             # print("\nWanted: '%d', Got: '%d'\n" % (current_std[1], lecturer))
 
-            for choice in current_std.values():
-                if choice == lecturer:
+            for index, ranking in enumerate(current_std.values()):
+
+                current = index + 1
+
+                if current == lecturer:
+                    fitness += (ranking - 1)
                     break
-                else:
-                    fitness += 1
             
             lecturer_counts[lecturer-1] += 1
             
@@ -117,10 +119,7 @@ class gp_funcs:
             if count > lecturer_capacity[1][i]:
                 fitness += 100
 
-        # print(fitness)
-        # print(len(genome) * len(choices[0]))
-                    
-        return (fitness / (len(genome) * len(choices[0])))
+        return (fitness / len(genome))
     
 
     def tournament_selection(self, population, fitness_array):
@@ -128,17 +127,6 @@ class gp_funcs:
         tournament_fitness = [fitness_array[population.index(pos)] for pos in tournament_participants]
         # Select the best individual from the tournament
         return tournament_participants[tournament_fitness.index(min(tournament_fitness))]
-
-
-    def selection_function(self, population, fitness_func):
-        
-        # solutions with a higher fitness should be more likely to be chosen, 
-        # hence the use of weights
-        return random.choices(
-            population,
-            weights=[fitness_func(genome) for genome in population],
-            k=2 # simply means that we draw twice to get a pair from the population
-        )
 
 
     def crossover(self, parent1, parent2):
